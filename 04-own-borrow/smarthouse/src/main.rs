@@ -10,9 +10,9 @@ struct Thermometer {
 
 trait Sockets {
     fn print_desc(&self) {}
+    fn print_pwr(&self) {}
     fn turn_on(&mut self) {}
     fn turn_off(&mut self) {}
-    fn get_pwr(&mut self) {}
 }
 
 trait Thermometers {
@@ -22,17 +22,16 @@ trait Thermometers {
 
 impl Sockets for Socket {
     fn print_desc(&self) {
-        println!("{}", self.desc)
+        println!("I'm {}", self.desc)
+    }
+    fn print_pwr(&self) {
+        println!("{} / Power: {}", self.desc, self.pwr);
     }
     fn turn_on(&mut self) {
         self.pwr_on = true
     }
     fn turn_off(&mut self) {
         self.pwr_on = false
-    }
-    fn get_pwr(&mut self) {
-        self.pwr = 1.1; // read value from device
-        println!("{}", self.pwr)
     }
 }
 
@@ -41,12 +40,12 @@ impl Thermometers for Thermometer {
         self.tmpr = 21.2121
     }
     fn print_tmpr(&self) {
-        println!("{:.2}", self.tmpr)
+        println!("Temperature: {:.2}", self.tmpr)
     }
 }
 
 fn main() {
-    let mut socket1 = Socket {
+    let socket1 = Socket {
         desc: String::from("1st socket"),
         pwr_on: false,
         pwr: 0.0, // read value from device
@@ -55,6 +54,6 @@ fn main() {
         tmpr: 21.21, // read value from device
     };
     socket1.print_desc();
-    socket1.get_pwr();
+    socket1.print_pwr();
     therm1.print_tmpr()
 }
